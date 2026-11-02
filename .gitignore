@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+build/
+dist/
+*.spec
+*.sl2
+*.sl2.bak
+_test*
+compare.py
+_compare.py
+.pytest_cache/
