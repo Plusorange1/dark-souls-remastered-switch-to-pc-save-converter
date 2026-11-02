@@ -124,7 +124,7 @@ roster fields that need to change.
 ## Tested
 
 Tested with a real Switch save (save version 65) and a PC save (version 71,
-app 1.03.1). The converted level-178 character loaded in-game.
+app 1.03.1). A converted high-level character loaded in-game.
 
 Other game versions/platform revisions may have different offsets. If the game
 rejects a save, include the error and the version numbers in an issue.
