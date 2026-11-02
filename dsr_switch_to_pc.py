@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Dark Souls: Remastered - Nintendo Switch -> PC save converter.
+Dark Souls: Remastered - Nintendo Switch to PC Save Converter.
 
 The Switch release stores each USER_DATA entry as:
     [MD5(plaintext) 16 bytes][plaintext 0x60000 bytes]
@@ -521,7 +521,7 @@ def gui() -> None:
     from tkinter import filedialog, messagebox, ttk
 
     root = tk.Tk()
-    root.title("DSR Switch -> PC Save Converter")
+    root.title("Dark Souls: Remastered - Switch to PC Save Converter")
     root.geometry("760x560")
     root.minsize(680, 500)
 
@@ -570,6 +570,16 @@ def gui() -> None:
         template_var.set(path)
         if not output_var.get():
             output_var.set(str(Path(path).with_name("DRAKS0005_converted.sl2")))
+        try:
+            pc = read_pc_save(path)
+            sys_version = u32(pc.system_body, SYS_VERSION_OFF)
+            status_var.set(
+                f"PC template: character v{pc.character_version}, "
+                f"system v{sys_version}. This is the target PC format."
+            )
+        except Exception as exc:
+            status_var.set("PC template selected, but it could not be read.")
+            messagebox.showwarning("PC template warning", str(exc))
 
     def pick_output() -> None:
         path = filedialog.asksaveasfilename(
@@ -660,6 +670,16 @@ def gui() -> None:
 
     row("Switch .sl2", switch_var, pick_switch)
     row("PC template .sl2", template_var, pick_template)
+    ttk.Label(
+        main,
+        text=(
+            "Used for the PC container, system/menu slot and version stamps. "
+            "Launch Dark Souls: Remastered on PC once to create one."
+        ),
+        foreground="#555555",
+        wraplength=700,
+        justify="left",
+    ).pack(fill="x", padx=(140, 0), pady=(0, 4))
     row("Output .sl2", output_var, pick_output)
 
     mode_frame = ttk.LabelFrame(main, text="Mode", padding=8)

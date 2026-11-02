@@ -32,16 +32,25 @@ jobs:
       - name: Build executable
         run: |
           python -m PyInstaller --noconfirm --clean --onefile --windowed `
-            --name DSR-Switch-to-PC dsr_switch_to_pc.py
+            --name Dark-Souls-Remastered-Switch-to-PC-Converter dsr_switch_to_pc.py
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: DSR-Switch-to-PC-windows
-          path: dist/DSR-Switch-to-PC.exe
+          name: Dark-Souls-Remastered-Switch-to-PC-Converter-windows
+          path: dist/Dark-Souls-Remastered-Switch-to-PC-Converter.exe
 
       - name: Publish release
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/DSR-Switch-to-PC.exe
+          name: "Dark Souls: Remastered - Switch to PC Converter ${{ github.ref_name }}"
+          body: |
+            Windows GUI/CLI converter for Dark Souls: Remastered Nintendo Switch saves.
+
+            - Converts DRAKS0005.sl2 character data, version stamps and the PC load-screen roster.
+            - GUI and command-line modes.
+            - Requires a PC DRAKS0005.sl2 as a version-matched template.
+
+            Back up your saves and play offline first.
+          files: dist/Dark-Souls-Remastered-Switch-to-PC-Converter.exe

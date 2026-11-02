@@ -8,13 +8,13 @@ if errorlevel 1 goto :error
 py -m pip install -r requirements.txt pyinstaller
 if errorlevel 1 goto :error
 
-echo Building DSR-Switch-to-PC.exe...
+echo Building Dark-Souls-Remastered-Switch-to-PC-Converter.exe...
 py -m PyInstaller --noconfirm --clean --onefile --windowed ^
-  --name DSR-Switch-to-PC dsr_switch_to_pc.py
+  --name Dark-Souls-Remastered-Switch-to-PC-Converter dsr_switch_to_pc.py
 if errorlevel 1 goto :error
 
 echo.
-echo Built: %CD%\dist\DSR-Switch-to-PC.exe
+echo Built: %CD%\dist\Dark-Souls-Remastered-Switch-to-PC-Converter.exe
 pause
 exit /b 0
 

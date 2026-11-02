@@ -1,13 +1,19 @@
-# DSR Switch → PC Save Converter
+# Dark Souls: Remastered — Nintendo Switch → PC Save Converter
 
-A small Windows tool that converts a **Dark Souls: Remastered** Nintendo Switch save
-(`DRAKS0005.sl2`) into a PC save that the Steam/PC build can load.
+Convert a **Dark Souls: Remastered** Nintendo Switch save (`DRAKS0005.sl2`) into a
+PC/Steam save that the PC build can load.
 
-It reads the Switch save, converts the character data layout and version stamps,
-rebuilds the PC load-screen roster, and writes a normal PC-format `.sl2`.
+This is a small Windows GUI + CLI tool. It reads the Switch save, converts the
+character data layout and save-version stamps, rebuilds the PC load-screen
+roster, and writes a normal PC-format `.sl2`.
 
 > **Unofficial fan tool.** Not affiliated with FromSoftware, Bandai Namco, or Nintendo.
 > Back up your saves. Use offline. Modified saves can trigger anti-cheat online.
+
+**Repository:** https://github.com/Plusorange1/dark-souls-remastered-switch-to-pc-save-converter
+
+**Search terms:** Dark Souls Remastered Switch save to PC, DRAKS0005.sl2
+converter, Nintendo Switch to Steam save transfer, Dark Souls save converter.
 
 ---
 
@@ -33,13 +39,16 @@ rebuilds the PC load-screen roster, and writes a normal PC-format `.sl2`.
 1. Your extracted Switch save: `DRAKS0005.sl2`.
 2. An existing PC save to use as a **template**: `DRAKS0005.sl2`.
    - Launch Dark Souls: Remastered on PC once, create/use a character, and exit.
-   - The tool uses the PC save's container header, system slot and version block.
+   - The tool uses the PC save's container header, system/menu slot and version
+     block. It does **not** modify the template.
+   - Any save from the same PC game version works, even a fresh one.
    - Your existing PC characters can be kept with **Merge** mode.
 3. A backup of both saves.
 
 ## Usage (GUI)
 
-1. Run `DSR-Switch-to-PC.exe` (or `python dsr_switch_to_pc.py`).
+1. Run `Dark-Souls-Remastered-Switch-to-PC-Converter.exe`
+   (or `python dsr_switch_to_pc.py`).
 2. Select the **Switch** save.
 3. Select an existing **PC save** as the template.
 4. Choose the output path.
@@ -73,6 +82,24 @@ Options:
 | `--mode merge` | Keep existing PC characters, add Switch characters to empty slots. |
 | `--slots 0,1` | Convert only these Switch source slots (default: all used). |
 | `--no-compact` | In replace mode, keep original Switch slot numbers instead of packing into slots 0..n. |
+
+## Why does it need a PC save?
+
+The PC save is used as a **version-matched base**:
+
+- its BND4 container header/entry table,
+- its PC system/menu slot (`010`), which contains the load-screen roster and
+  the PC system version,
+- its PC version block and character save-version stamp.
+
+Reading these from your own PC save is deliberate. A hard-coded/built-in
+template would lock the tool to one PC version (currently 1.03.1 / save version
+71) and break when the game is updated. With a template, the output matches the
+version of the PC save you provide. The tool warns if the template's system
+version is not the expected one.
+
+The template is never modified. In replace mode its characters are ignored; in
+merge mode they are kept.
 
 ## How it works
 
@@ -152,10 +179,11 @@ or manually:
 ```bat
 py -m pip install -r requirements.txt pyinstaller
 py -m PyInstaller --noconfirm --onefile --windowed ^
-  --name DSR-Switch-to-PC dsr_switch_to_pc.py
+  --name Dark-Souls-Remastered-Switch-to-PC-Converter dsr_switch_to_pc.py
 ```
 
-The executable is written to `dist\DSR-Switch-to-PC.exe`.
+The executable is written to
+`dist\Dark-Souls-Remastered-Switch-to-PC-Converter.exe`.
 
 ## Credits
 
